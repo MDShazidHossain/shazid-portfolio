@@ -1,0 +1,22 @@
+const c = portfolioContent;
+const $ = (id) => document.getElementById(id);
+$("brandName").textContent = c.name;
+$("heroIntro").textContent = c.heroIntro;
+$("aboutText").textContent = c.about;
+$("profileImage").src = c.profileImage;
+$("resumeLink").href = c.resumePath;
+$("emailButton").href = `mailto:${c.email}`;
+$("contactEmail").textContent = c.email;
+$("year").textContent = new Date().getFullYear();
+$("tickerItems").innerHTML = [...c.ticker, ...c.ticker].map(x => `<span>${x}</span>`).join("");
+$("experienceList").innerHTML = c.experience.map(x => `<article class="experience-item"><div><h3>${x.role}</h3><span class="company">${x.company}</span></div><p>${x.detail}</p><span class="date">${x.date}</span></article>`).join("");
+$("projectGrid").innerHTML = c.projects.map(x => {
+  const media = x.media ? (/\.(mp4|webm|ogg)(\?.*)?$/i.test(x.media) ? `<video src="${x.media}" controls preload="metadata"></video>` : `<img src="${x.media}" alt="${x.title}">`) : `<span class="media-placeholder">ADD YOUR PROJECT MEDIA</span>`;
+  const link = x.link ? `<a class="project-link" href="${x.link}" target="_blank" rel="noopener">${x.linkLabel || "View project"} ↗</a>` : "";
+  return `<article class="project-card"><div class="project-media">${media}</div><div class="project-info"><span class="project-type">${x.type}</span><h3>${x.title}</h3><p>${x.description}</p>${link}</div></article>`;
+}).join("");
+$("skillTags").innerHTML = c.skills.map(x => `<span>${x}</span>`).join("");
+$("toolTags").innerHTML = c.tools.map(x => `<span>${x}</span>`).join("");
+const menu = document.querySelector(".menu-toggle"), nav = document.querySelector("#navigation");
+menu.addEventListener("click", () => { const open = nav.classList.toggle("open"); menu.setAttribute("aria-expanded", open); });
+nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
